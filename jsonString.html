@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+//JSON.stringify 数组对象去重 [{x:1,y:2},{x:3,y:4}]
+function unique(arr){
+    var unique={};
+    arr.forEach(function(element){
+        var newData={};
+        Object.keys(element).sort().map(function(key){
+            newData[key]=element[key];
+        })
+        unique[newData]=element;
+    });
+    console.log(unique)
+}
+unique([{x:1,y:2},{x:3,y:4}])
+
+//JSON.stringify 第二个参数解决对象属性的顺序问题 
+function unique2(arr){
+    var unique={};
+    arr.forEach(function(item){
+        unique[JSON.stringify(item,['name','author'])]=item;
+    })
+    arr=Object.keys(unique).map(function(key){
+        return JSON.parse(key)
+    })
+    console.log(arr)
+}
+unique2([{x:1,y:2},{y:2,x:1}])
+</script>
+</html>

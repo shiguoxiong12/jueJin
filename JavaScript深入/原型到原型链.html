@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>原型到原型链</title>
+</head>
+<body>
+   <a href='https://github.com/mqyqingfeng/Blog'>JavaScript深入</a>
+</body>
+<script>
+   
+    var a={
+        name:"shi"
+    }
+    var name="AA"
+    function tell(a,b){
+        console.log(this)
+        alert(this.name+a+b)
+    }
+    Function.prototype.myBind=function(context){
+       var self=this;
+       var args = Array.prototype.slice.call(arguments, 1);
+       console.log(arguments)
+       console.log(args)
+       return function(){
+        var argument2=Array.prototype.slice.call(arguments, 0);
+           self.apply(context,args.concat(argument2))
+       }
+    }
+   // tell.myBind(a,'aag')("aa")
+
+    Function.prototype.myCall=function(){
+        var self=this;
+        var own=Array.prototype.slice.call(arguments,0)[0];
+        own['self']=self;
+        own['self']();
+        console.log(own)
+        delete own[self];
+    }
+    function tell2(){
+            alert(this.name)
+    }
+    function bar(name, age) {
+    console.log(name)
+    console.log(age)
+    console.log(this.value);
+}
+var foo = {
+    value: 1
+};
+    Function.prototype.call2 = function(context) {
+    context.fn = this;
+    var args = [];
+    for(var i = 1, len = arguments.length; i < len; i++) {
+        args.push('arguments[' + i + ']');
+    }
+ 
+    var a=eval('context.fn(' + args +')');
+  //  debugger
+   // delete context.fn;
+}
+    //tell2.myCall(a);
+   // bar.call2(foo, 'kevin', 18); 
+
+
+function kk(){
+    var args = [];
+    for(var i = 0, len = arguments.length; i < len; i++) {
+        args.push('arguments[' + i + ']');
+    }
+    var p='bar('+args+')';
+    eval('bar('+args+')')
+    debugger
+}
+kk("sjs",'ppppp')
+</script>
+</html>
